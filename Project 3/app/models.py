@@ -26,3 +26,9 @@ class Stop(Base):
     stop_name=Column(String,nullable=False,unique=True)
     is_active=Column(Boolean,default=True)
     created_at=Column(TIMESTAMP,nullable=False,server_default=text('now()'))
+
+class BusRoute(Base):
+    __tablename__='bus_routes'
+    bus_id=Column(Integer,ForeignKey('bus.bus_id',ondelete='CASCADE',onupdate='CASCADE'),primary_key=True)
+    stop_id=Column(Integer,ForeignKey('stops.stop_id',ondelete='CASCADE',onupdate='CASCADE'),primary_key=True)
+    time=Column(TIMESTAMP,primary_key=True)

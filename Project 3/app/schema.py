@@ -1,6 +1,6 @@
 from pydantic import BaseModel,EmailStr
 from typing import Optional
-from datetime import datetime
+from datetime import datetime,time
 class UserCreate(BaseModel):
     name:str
     email:EmailStr
@@ -40,6 +40,18 @@ class Stop(BaseModel):
 class BusRoute(BaseModel):
     bus_id:int
     stop_id:int
-    time:datetime
+    time:time
+
+class FindBus(BaseModel):
+    source_id:int
+    dest_id:int
+    time:time
+
+
+class BusRouteOut(BaseModel):
+    bus_id:int
+    bus_name:str
+    time:time
+    
 
     
