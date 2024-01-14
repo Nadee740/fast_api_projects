@@ -40,7 +40,13 @@ def add_bus_route(busroute:schema.BusRoute,db:Session=Depends(database.get_db)):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail=f"Something went wrong {e}")
     
     return bus_route
-
+@router.get("/get-bus-id")
+async def get_bus_by_id(db:Session=Depends(database.get_db)):
+    try:
+         bus_routes=db.query(models.Stop).filter(models.Stop.stop_id==5).first()
+         return bus_routes
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
 @router.get("/get-bus-routes",response_model=List[schema.BusRoute])
 async def get_all_bus_routes(db:Session=Depends(database.get_db)):
     try:

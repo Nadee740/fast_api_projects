@@ -2,6 +2,7 @@ from .database import Base
 from sqlalchemy import Column,Integer,String,Boolean,ForeignKey
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
+from sqlalchemy.orm import relationship
 
 class User(Base):
     __tablename__="users"
@@ -26,9 +27,11 @@ class Stop(Base):
     stop_name=Column(String,nullable=False,unique=True)
     is_active=Column(Boolean,default=True)
     created_at=Column(TIMESTAMP,nullable=False,server_default=text('now()'))
+    bus_routes=relationship("BusRoute",back_populates="stop")
 
 class BusRoute(Base):
     __tablename__='bus_routes'
     bus_id=Column(Integer,ForeignKey('bus.bus_id',ondelete='CASCADE',onupdate='CASCADE'),primary_key=True)
     stop_id=Column(Integer,ForeignKey('stops.stop_id',ondelete='CASCADE',onupdate='CASCADE'),primary_key=True)
+    stop=relationship("Stop",back_populates='bus_routes')
     time=Column(TIMESTAMP,primary_key=True)
